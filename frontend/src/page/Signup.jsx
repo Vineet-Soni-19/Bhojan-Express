@@ -13,12 +13,37 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
+  console.log(data);
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
   const handleShowConfirmPassword = () => {
     setShowConfirmPassword((prev) => !prev);
   };
+  const handleOnChange=(e)=>{
+    const {name,value}=e.target
+    setData((prev)=>{
+      return{
+        ...prev,
+        [name]:value
+      }
+    })
+  }
+  const handleSubmit=(e)=>{
+    e.preventDefault();     //page will not refresh
+    const {firstName,email,password,confirmPassword}=data
+    if(firstName && email && password && confirmPassword){
+      if(password===confirmPassword){
+        alert("Successfull");
+      }
+      else{
+        alert("Password and Confirm Password should be same");
+      }
+    }
+    else{
+      alert("Please enter required fields");
+    }
+  }
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-md bg-white m-auto flex items-center flex-col p-4">
@@ -26,7 +51,7 @@ function Signup() {
         <div className="w-20 overflow-hidden rounded-full drop-shadow-md shadow-md">
           <img className="w-full" src={loginsignupImage} alt="" />
         </div>
-        <form className="w-full py-3 flex flex-col">
+        <form className="w-full py-3 flex flex-col" onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name</label>
           <input
             type={"text"}
@@ -34,6 +59,7 @@ function Signup() {
             name="firstName"
             className="my-2 w-full bg-slate-200 rounded-lg px-2 py-1"
             value={data.firstName}
+            onChange={handleOnChange}
           />
           <label htmlFor="lastName">Last Name</label>
           <input
@@ -41,6 +67,8 @@ function Signup() {
             id="lastName"
             name="lastName"
             className="my-2 w-full bg-slate-200 rounded-lg px-2 py-1"
+            value={data.lastName}
+            onChange={handleOnChange}
           />
           <label htmlFor="email">Email</label>
           <input
@@ -48,6 +76,8 @@ function Signup() {
             id="email"
             name="email"
             className="my-2 w-full bg-slate-200 rounded-lg px-2 py-1"
+            value={data.email}
+            onChange={handleOnChange}
           />
           <label htmlFor="password">Password</label>
           <div className="relative">
@@ -56,6 +86,8 @@ function Signup() {
               id="password"
               name="password"
               className="my-2 w-full px-2 py-1 bg-slate-200 rounded-lg "
+              value={data.password}
+              onChange={handleOnChange}
             />
             <span
               className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer text-xl "
@@ -64,13 +96,15 @@ function Signup() {
               {showPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
-          <label htmlFor="confirmpassword">Confirm Password</label>
+          <label htmlFor="confirmPassword">Confirm Password</label>
           <div className="relative">
             <input
               type={showConfirmPassword ? "text" : "password"}
-              id="confirmpassword"
-              name="confirmpassword"
+              id="confirmPassword"
+              name="confirmPassword"
               className="my-2 w-full px-2 py-1 bg-slate-200 rounded-lg "
+              value={data.confirmPassword}
+              onChange={handleOnChange}
             />
             <span
               className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer text-xl "
@@ -85,7 +119,7 @@ function Signup() {
         </form>
         <p className="text-left text-xs">
           Already have account ?{" "}
-          <Link to={"login"} className="text-red-500 underline">
+          <Link to={"/login"} className="text-red-500 underline">
             Login
           </Link>
         </p>
