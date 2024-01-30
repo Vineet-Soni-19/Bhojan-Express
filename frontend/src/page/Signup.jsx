@@ -3,6 +3,8 @@ import { BiHide, BiShow } from "react-icons/bi";
 import loginsignupImage from "../assest/login-animation.gif";
 import { Link, useNavigate } from "react-router-dom";
 import { ImagetoBase64 } from "../utility/ImagetoBase64";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function Signup() {
   const navigate=useNavigate()
@@ -43,14 +45,27 @@ function Signup() {
       }
     })
   }
-
-  const handleSubmit = (e) => {
+  console.log(data);
+  console.log(process.env.REACT_APP_SERVER_DOMIN)
+  const handleSubmit = async(e) => {
     e.preventDefault(); //page will not refresh
     const { firstName, email, password, confirmPassword } = data;
     if (firstName && email && password && confirmPassword) {
       if (password === confirmPassword) {
-        alert("Successfull");
-        navigate('/login');
+        const fetchData=await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/signup`,{
+          method: 'POST',
+          headers:{
+            'content-type' : 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        const dataRes = await fetchData.json()
+        console.log(dataRes);
+        // alert(dataRes.message);
+        toast(dataRes.message);
+        if(dataRes.alert){
+          navigate('/login');
+        }
       } else {
         alert("Password and Confirm Password should be same");
       }
@@ -63,7 +78,7 @@ function Signup() {
     <div className="p-3 md:p-4">
       <div className="w-full max-w-md bg-white m-auto flex items-center flex-col p-4">
 
-        {/* <h1 className="text-center text-2xl font-bold ">Sign Up</h1> */}
+        <h1 className="text-center text-2xl font-bold ">Sign Up</h1>
         <label htmlFor="profileImage">
         <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md relative cursor-pointer">
           <img className="w-full h-full" src={data.image ? data.image : loginsignupImage} alt="" />
