@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import loginsignupImage from "../assest/login-animation.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ImagetoBase64 } from "../utility/ImagetoBase64";
 
 function Signup() {
+  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [data, setData] = useState({
@@ -12,46 +14,71 @@ function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    image: ""
   });
-  console.log(data);
+  // console.log(data);
+
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
   const handleShowConfirmPassword = () => {
     setShowConfirmPassword((prev) => !prev);
   };
-  const handleOnChange=(e)=>{
-    const {name,value}=e.target
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleUploadProfileImage=async(e)=>{
+    const data=await ImagetoBase64(e.target.files[0]);
     setData((prev)=>{
       return{
         ...prev,
-        [name]:value
+        image: data
       }
     })
   }
-  const handleSubmit=(e)=>{
-    e.preventDefault();     //page will not refresh
-    const {firstName,email,password,confirmPassword}=data
-    if(firstName && email && password && confirmPassword){
-      if(password===confirmPassword){
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); //page will not refresh
+    const { firstName, email, password, confirmPassword } = data;
+    if (firstName && email && password && confirmPassword) {
+      if (password === confirmPassword) {
         alert("Successfull");
-      }
-      else{
+        navigate('/login');
+      } else {
         alert("Password and Confirm Password should be same");
       }
-    }
-    else{
+    } else {
       alert("Please enter required fields");
     }
-  }
+  };
+
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-md bg-white m-auto flex items-center flex-col p-4">
-        <h1 className="text-center text-2xl font-bold ">Sign Up</h1>
-        <div className="w-20 overflow-hidden rounded-full drop-shadow-md shadow-md">
-          <img className="w-full" src={loginsignupImage} alt="" />
+
+        {/* <h1 className="text-center text-2xl font-bold ">Sign Up</h1> */}
+        <label htmlFor="profileImage">
+        <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md relative cursor-pointer">
+          <img className="w-full h-full" src={data.image ? data.image : loginsignupImage} alt="" />
+
+          
+          <div className="absolute bottom-0 h-1/3 bg-slate-500 bg-opacity-50 w-full text-center cursor-pointer">
+          <p className="text-sm p-0.5 text-white">Upload</p>
         </div>
+        <input className='hidden' type={'file'} accept='image/*' id='profileImage' onChange={handleUploadProfileImage}/>
+        
+        </div>
+        </label>
+
         <form className="w-full py-3 flex flex-col" onSubmit={handleSubmit}>
+
           <label htmlFor="firstName">First Name</label>
           <input
             type={"text"}
@@ -61,6 +88,7 @@ function Signup() {
             value={data.firstName}
             onChange={handleOnChange}
           />
+
           <label htmlFor="lastName">Last Name</label>
           <input
             type={"text"}
@@ -70,6 +98,7 @@ function Signup() {
             value={data.lastName}
             onChange={handleOnChange}
           />
+
           <label htmlFor="email">Email</label>
           <input
             type={"email"}
@@ -79,6 +108,7 @@ function Signup() {
             value={data.email}
             onChange={handleOnChange}
           />
+
           <label htmlFor="password">Password</label>
           <div className="relative">
             <input
@@ -96,6 +126,7 @@ function Signup() {
               {showPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
+
           <label htmlFor="confirmPassword">Confirm Password</label>
           <div className="relative">
             <input
@@ -113,16 +144,20 @@ function Signup() {
               {showConfirmPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
+
           <button className="w-full max-w-[150px] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center py-1 rounded-full my-3">
             Sign Up
           </button>
+
         </form>
+
         <p className="text-left text-xs">
           Already have account ?{" "}
           <Link to={"/login"} className="text-red-500 underline">
             Login
           </Link>
         </p>
+
       </div>
     </div>
   );
