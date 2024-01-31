@@ -32,9 +32,12 @@ const userSchema=mongoose.Schema({
 //model
 const userModel=mongoose.model("user",userSchema);
 
+//api
 app.get("/",(req,res)=>{
     res.send("Server is running");
 })
+
+//signup
 app.post("/signup",async(req,res)=>{
     console.log(req.body)
     try {
@@ -57,6 +60,33 @@ app.post("/signup",async(req,res)=>{
         res.status(500).send({ message: 'Internal server error' });
       }
     
+})
+
+
+//login api
+app.post('/login',async(req,res)=>{
+  console.log(req.body);
+  try{
+  const {email}=req.body
+  const result=await userModel.findOne({email});
+    if(result){
+      const dataSend={
+        _id:result._id,
+        firstName: result.firstName,
+        lastName: result.lastName,
+        email: result.email,
+        image: result.image,
+      }
+      console.log(dataSend);
+      res.send({message:"Login is successful",alert: true,data:dataSend})
+    }
+    else{
+      res.send({message: 'Email is not available, please sign up', alert: false})
+    }
+  }catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error',alert: false });
+  }
 })
 
 app.listen(PORT,()=>{

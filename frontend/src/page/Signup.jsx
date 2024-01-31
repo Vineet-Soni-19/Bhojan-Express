@@ -61,6 +61,7 @@ function Signup() {
         });
         const dataRes = await fetchData.json()
         console.log(dataRes);
+        
         // alert(dataRes.message);
         toast(dataRes.message);
         if(dataRes.alert){
