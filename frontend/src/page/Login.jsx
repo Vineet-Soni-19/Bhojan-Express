@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import loginsignupImage from "../assest/login-animation.gif";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { loginRedux } from "../redux/userSlice";
 
-function Signup() {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
-    
     email: "",
-    password: ""
+    password: "",
   });
-  // console.log(data);
+  const navigate = useNavigate();
+  const userData = useSelector(state => state);
+  // console.log(userData.user);
 
-  const navigate= useNavigate()
+  const dispatch = useDispatch();
 
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -27,25 +30,33 @@ function Signup() {
       };
     });
   };
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); //page will not refresh
-    const {email, password} = data;
+    const { email, password } = data;
     if (email && password) {
-      const fetchData=await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/login`,{
-        method: 'POST',
-        headers:{
-          'content-type' : 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      const dataRes = await fetchData.json()
+      const fetchData = await fetch(
+        `${process.env.REACT_APP_SERVER_DOMIN}/login`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const dataRes = await fetchData.json();
       console.log(dataRes);
       toast(dataRes.message);
-      if(dataRes.alert){
+
+      if (dataRes.alert) {
+        dispatch(loginRedux(dataRes));
         setTimeout(() => {
-          navigate('/')
-        }, 2000);
+          navigate("/");
+        }, 1000);
       }
+
+      console.log(userData);
     } else {
       alert("Please enter required fields");
     }
@@ -54,14 +65,12 @@ function Signup() {
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-md bg-white m-auto flex items-center flex-col p-4">
-
         <h1 className="text-center text-2xl font-bold ">Login</h1>
         <div className="w-20 overflow-hidden rounded-full drop-shadow-md shadow-md">
           <img className="w-full" src={loginsignupImage} alt="" />
         </div>
 
         <form className="w-full py-3 flex flex-col" onSubmit={handleSubmit}>
-
           <label htmlFor="email">Email</label>
           <input
             type={"email"}
@@ -93,7 +102,6 @@ function Signup() {
           <button className="w-full max-w-[150px] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center py-1 rounded-full my-3">
             Login
           </button>
-
         </form>
 
         <p className="text-left text-xs">
@@ -102,10 +110,9 @@ function Signup() {
             Sign up
           </Link>
         </p>
-        
       </div>
     </div>
   );
-}
+};
 
-export default Signup;
+export default Login;
