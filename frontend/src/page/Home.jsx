@@ -1,8 +1,9 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import HomeCard from '../component/HomeCard'
 import { useSelector } from 'react-redux'
 import CardFeature from '../component/CardFeature'
 import { GrNext, GrPrevious } from "react-icons/gr";
+import FilterProduct from '../component/FilterProduct';
 
 function Home() {
   const productData=useSelector((state)=>state.product.productList)
@@ -21,6 +22,25 @@ function Home() {
     slideProductRef.current.scrollLeft -=200
   }
 
+const categoryList=[... new Set(productData.map(el=>el.category))]
+console.log(categoryList)
+
+//filter data display
+const [filterBy,setFilterBy]= useState('')
+const [dataFilter,setDataFilter]= useState(productData)
+
+useEffect(()=>{
+  setDataFilter(productData)
+},[productData])
+
+const handleFilterProduct=(category)=>{
+  const filter=productData.filter(el=>el.category.toLowerCase() === category.toLowerCase())
+  setDataFilter(()=>{
+    return[
+      ...filter
+    ]
+  })
+}
   return (
     <div className='p-2 md:p-4'>
       <div className='md:flex py-2'>
@@ -79,7 +99,33 @@ function Home() {
             :
             loadingArrayFeature.map(el => <CardFeature loading="Loading...."/>)
           }
-          
+        </div>
+      </div>
+      <div className='my-5'>
+        <h2 className='font-bold text-2xl text-slate-800 mb-4'>Your Product</h2>
+        <div className='flex justify-center gap-4 overflow-scroll scrollbar-none'>
+          {
+            categoryList[0] && categoryList.map(el=>{
+              return(
+                <FilterProduct category={el} onClick={()=>handleFilterProduct(el)}/>
+              )
+            })
+          }
+        </div>
+        <div className='flex flex-wrap justify-center gap-4 mt-5'>
+          {
+            dataFilter.map(el=>{
+              return(
+                <CardFeature
+                key={el._id}
+                image={el.image}
+                name={el.name}
+                category={el.category}
+                price={el.price}
+                />
+              )
+            })
+          }
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ function Header() {
           </div>
         </Link>
         <div className="flex items-center gap-4 md:gap-7">
-          <nav className="flex gap-4 md:gap-6 text-base md:text-lg">
+          <nav className="md:flex gap-4 md:gap-6 text-base md:text-lg hidden">
             <Link to={""}>Home</Link>
             <Link to={"menu"}>Menu</Link>
             <Link to={"about"}>About</Link>
@@ -50,15 +50,20 @@ function Header() {
               }
             </div>
             {showMenu && (
-              <div className="absolute right-2 bg-white py-2 px-2 shodow drop-shadow-md flex flex-col">
+              <div className="absolute right-2 bg-white py-2 px-2 shodow drop-shadow-md flex flex-col ">
                 {
                   userData.email === process.env.REACT_APP_ADMIN_EMAIL && <Link to={"newproduct"} className="whitespace-nowrap cursor-pointer">New Product</Link>
                 }
                 {
                 userData.image ? <p className="cursor-pointer" onClick={handleLogOut}>Log Out</p> : 
-                <Link to={"login"} className="whitespace-nowrap cursor-pointer">Login</Link>
+                <Link to={"login"} className="whitespace-nowrap cursor-pointer px-2 py-1">Login</Link>
               }
-                
+                <nav className="flex flex-col text-base md:text-lg md:hidden">
+                  <Link to={""} className="px-2 py-1">Home</Link>
+                  <Link to={"menu"} className="px-2 py-1">Menu</Link>
+                  <Link to={"about"} className="px-2 py-1">About</Link>
+                  <Link to={"contact"} className="px-2 py-1">Contact</Link>
+                </nav>
               </div>
             )}
           </div>

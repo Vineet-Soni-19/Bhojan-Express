@@ -2,7 +2,7 @@ import React from "react";
 
 function CardFeature({ image, name, price, category, loading}) {
   return (
-    <div className="w-full min-w-[200px] bg-white hover:shadow-lg drop-shadow-lg py-5 px-4 cursor-pointer flex flex-col ">
+    <div className="w-full min-w-[200px] max-w-[200px] bg-white hover:shadow-lg drop-shadow-lg py-5 px-4 cursor-pointer flex flex-col ">
       {
         image?
         <>
