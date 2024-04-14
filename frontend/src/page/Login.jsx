@@ -46,7 +46,7 @@ const Login = () => {
       );
 
       const dataRes = await fetchData.json();
-      console.log(dataRes);
+      // console.log(dataRes);
       toast(dataRes.message);
 
       if (dataRes.alert) {
@@ -56,7 +56,7 @@ const Login = () => {
         }, 1000);
       }
 
-      console.log(userData);
+      // console.log(userData);
     } else {
       alert("Please enter required fields");
     }

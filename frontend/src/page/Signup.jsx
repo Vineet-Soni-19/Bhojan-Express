@@ -45,8 +45,9 @@ function Signup() {
       }
     })
   }
-  console.log(data);
-  console.log(process.env.REACT_APP_SERVER_DOMIN)
+  // console.log(data);
+  // console.log(process.env.REACT_APP_SERVER_DOMIN)
+
   const handleSubmit = async(e) => {
     e.preventDefault(); //page will not refresh
     const { firstName, email, password, confirmPassword } = data;
@@ -60,7 +61,7 @@ function Signup() {
           body: JSON.stringify(data)
         });
         const dataRes = await fetchData.json()
-        console.log(dataRes);
+        // console.log(dataRes);
         
         // alert(dataRes.message);
         toast(dataRes.message);

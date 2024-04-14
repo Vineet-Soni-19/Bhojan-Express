@@ -21,7 +21,7 @@ function CardFeature({ image, name, price, category, loading, id}) {
         <>
         <Link to={`/menu/${id}`} onClick={()=>window.scrollTo({top:'0',behavior:'smooth'})}>
         <div className="h-28 flex justify-center">
-        <img src={image} className="h-full" />
+        <img src={image} alt='' className="h-full" />
         </div>
         <h3 className="font-semibold text-center text-slate-600 capitalize text-lg mt-4 whitespace-nowrap overflow-hidden">
           {name}

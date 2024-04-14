@@ -35,7 +35,7 @@ export const productSlice = createSlice({
             const index = state.cartItem.findIndex((el) =>
                 el._id === action.payload
             )
-            console.log(index)
+            // console.log(index)
             state.cartItem.splice(index, 1)
         },
         increaseQty: (state, action) => {

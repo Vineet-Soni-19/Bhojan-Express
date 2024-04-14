@@ -36,7 +36,7 @@ function Newproduct() {
 
   const handleOnSubmit=async(e)=>{
     e.preventDefault();
-    console.log(data);
+    // console.log(data);
 
     const {name,image,category,price}=data
     if(name && image && category && price){
@@ -48,7 +48,7 @@ function Newproduct() {
         body : JSON.stringify(data)
       })
       const fetchRes=await fetchData.json()
-      console.log(fetchRes);
+      // console.log(fetchRes);
       toast(fetchRes.message);
       setData(()=>{
         return{

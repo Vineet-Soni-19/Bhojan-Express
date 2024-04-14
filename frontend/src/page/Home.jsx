@@ -21,8 +21,7 @@ function Home() {
   const prevProduct=()=>{
     slideProductRef.current.scrollLeft -=200
   }
-
-
+ 
 
 
   return (
