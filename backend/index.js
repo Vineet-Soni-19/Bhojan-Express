@@ -152,7 +152,7 @@ app.post("/checkout-payment", async (req, res) => {
   }
   catch(error){
     res.status(error.statusCode || 500).json(error.message);
-  }
+  }  
 })
 
 
