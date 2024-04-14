@@ -36,6 +36,9 @@ To get started with Bhojan Express, follow these steps:
 
 For more detailed instructions and additional information, refer to the project's comprehensive documentation.
 
+## Deployed Project
+Check out the deployed version of Bhojan Express on Vercel: [Bhojan Express Deployment](https://bhojan-express.vercel.app/)
+
 ## Contributing
 
 We welcome contributions from the community! If you'd like to contribute to Bhojan Express, please follow our [Contribution Guidelines](CONTRIBUTING.md).
